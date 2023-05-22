@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flappy Bird</title>
+    <style>
+      #game {
+        width: 400px;
+        height: 600px;
+        border: 1px solid black;
+        position: relative;
+      }
+      #bird {
+        width: 50px;
+        height: 50px;
+        background-color: yellow;
+        position: absolute;
+        top: 50%;
+        left: 50px;
+        transform: translateY(-50%);
+      }
+      .pipe {
+        width: 50px;
+        height: 200px;
+        background-color: green;
+        position: absolute;
+        bottom: 0;
+      }
+      #pipe1 {
+        left: 200px;
+      }
+      #pipe2 {
+        left: 350px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game">
+      <div id="bird"></div>
+      <div class="pipe" id="pipe1"></div>
+      <div class="pipe" id="pipe2"></div>
+    </div>
+    <script>
+      const bird = document.getElementById("bird");
+      const pipe1 = document.getElementById("pipe1");
+      const pipe2 = document.getElementById("pipe2");
+      let birdPosition = 50;
+      let gravity = 0.5;
+      let velocity = 0;
+      let pipePosition = 400;
+
+      function jump() {
+        velocity = -10;
+      }
+
+      function update() {
+        velocity += gravity;
+        birdPosition += velocity;
+        bird.style.top = birdPosition + "px";
+        pipePosition -= 5;
+        pipe1.style.left = pipePosition + "px";
+        pipe2.style.left = pipePosition + "px";
+        if (pipePosition < -50) {
+          pipePosition = 400;
+        }
+        if (
+          (birdPosition < 0 || birdPosition > 550) ||
+          ((birdPosition < 250 || birdPosition > 350) &&
+            (pipePosition < 100 && pipePosition > -50))
+        ) {
+          alert("Game Over!");
+          location.reload();
+        }
+      }
+
+      setInterval(update, 50);
+      document.addEventListener("keydown", jump);
+    </script>
+  </body>
+</html>
